@@ -1,0 +1,82 @@
+{
+  "generated_at": "2026-08-30T19:23:05.664Z",
+  "elements": [
+    {
+      "key": "harness",
+      "word": "Harness",
+      "path": "/harness"
+    },
+    {
+      "key": "objective",
+      "word": "Objective",
+      "path": "/objective"
+    },
+    {
+      "key": "role",
+      "word": "Role",
+      "path": "/role"
+    },
+    {
+      "key": "scope",
+      "word": "Scope",
+      "path": "/scope"
+    },
+    {
+      "key": "evaluate",
+      "word": "Evaluate",
+      "path": "/evaluate"
+    }
+  ],
+  "prompts": [
+    {
+      "element": "harness",
+      "slug": "start-here",
+      "title": "Test Harness start-here prompt",
+      "level": "beginner",
+      "summary": "Test summary for the Harness start-here prompt.",
+      "use_when": "Test — use when validating the pipeline.",
+      "path": "harness/prompts/start-here.md",
+      "is_start_here": true
+    },
+    {
+      "element": "objective",
+      "slug": "start-here",
+      "title": "Test Objective start-here prompt",
+      "level": "beginner",
+      "summary": "Test summary for the Objective start-here prompt.",
+      "use_when": "Test — use when validating the pipeline.",
+      "path": "objective/prompts/start-here.md",
+      "is_start_here": true
+    },
+    {
+      "element": "role",
+      "slug": "start-here",
+      "title": "Test Role start-here prompt",
+      "level": "beginner",
+      "summary": "Test summary for the Role start-here prompt.",
+      "use_when": "Test — use when validating the pipeline.",
+      "path": "role/prompts/start-here.md",
+      "is_start_here": true
+    },
+    {
+      "element": "scope",
+      "slug": "start-here",
+      "title": "Test Scope start-here prompt",
+      "level": "beginner",
+      "summary": "Test summary for the Scope start-here prompt.",
+      "use_when": "Test — use when validating the pipeline.",
+      "path": "scope/prompts/start-here.md",
+      "is_start_here": true
+    },
+    {
+      "element": "evaluate",
+      "slug": "start-here",
+      "title": "Test Evaluate start-here prompt",
+      "level": "beginner",
+      "summary": "Test summary for the Evaluate start-here prompt.",
+      "use_when": "Test — use when validating the pipeline.",
+      "path": "evaluate/prompts/start-here.md",
+      "is_start_here": true
+    }
+  ]
+}
