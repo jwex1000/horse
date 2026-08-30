@@ -1,0 +1,10 @@
+# Local tooling / index state
+.memsearch/
+
+# macOS
+.DS_Store
+
+# Editor cruft
+*.swp
+.idea/
+.vscode/
