@@ -1,6 +1,9 @@
 # Local tooling / index state
 .memsearch/
 
+# Local-only project instructions for Claude Code
+CLAUDE.md
+
 # macOS
 .DS_Store
 
