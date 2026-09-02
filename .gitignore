@@ -11,3 +11,6 @@ CLAUDE.md
 *.swp
 .idea/
 .vscode/
+
+# Local-only working notes
+notes/
