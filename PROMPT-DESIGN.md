@@ -1,20 +1,10 @@
 # HORSE Prompt Design
 
-How prompts in this library are built. This is the architecture behind every prompt file — what a prompt must do, the file format the site consumes, and the mechanics we use on purpose. If you're writing or adapting a prompt for this library, start here.
+How prompts in this library are built: what a prompt file is, what makes a good HORSE prompt, and where the teaching lives. If you're writing or adapting a prompt for this library, start here.
 
-## Design principles
+## What a prompt file is
 
-**Technique prompts, not task recipes.** Every prompt here helps you do one of the HORSE elements better — sharpen an objective, set a role, bound a scope, evaluate an output. None of them are "write me a marketing email." Task recipes go stale and teach nothing; techniques transfer to any work.
-
-**Domain-agnostic, tool-agnostic.** Assume nothing about the reader's industry or job. Assume only a chat interface — ChatGPT, Copilot, Claude, Gemini, or anything like them. Prompts may freely lean on web search, file uploads, and memory, since nearly every tool has them now.
-
-**Prompts work copy-pasted, as-is.** Many readers will copy the prompt without reading anything around it. Every prompt must be self-contained: no placeholders that break it, no setup steps hidden in the surrounding prose. The teaching around a prompt is for the minority who read it.
-
-**No naked prompts.** Every prompt is reachable only through something that told you why you'd want it. That context travels in the file itself: the `summary` and `use_when` frontmatter get the prompt picked correctly, and the body sections teach it once you're inside. When an element fans out into sub-topics (like the five roles), each sub-topic gets a short intro before its prompts.
-
-**A sentence can be a prompt.** Length is earned by rules, not padding. Some of the best technique prompts are one line ("Confirm your understanding before you start."); long prompts are fine when the length is behavioral rules the AI must follow.
-
-## The file contract
+A prompt file has one job: hold the text a visitor copies. The companion site reads the file, draws a card from the frontmatter, and puts the prompt text behind a copy button. Nobody reads the file itself. Nothing in it teaches, explains, or gives an example. If a reader needs to know something before using the prompt, the prompt says it.
 
 Every prompt lives in `<element>/prompts/<name>.md`:
 
@@ -22,62 +12,48 @@ Every prompt lives in `<element>/prompts/<name>.md`:
 ---
 title:
 element: objective      # harness | objective | role | scope | evaluate
-level: beginner         # beginner | intermediate
-summary:                # one line for cards/search
+level: beginner         # beginner | intermediate | advanced | expert
+style: interview        # interview | instruction
+summary:                # one line for cards and search
 use_when:               # 1–2 situations this is for
 ---
 
 ## The prompt
-## Why it works
-## Example
-## It's working if
-## Watch out for
+
+<the text a visitor copies, and nothing else>
 ```
 
-The first three sections are required. The last two are optional but encouraged:
+The frontmatter is what the site knows about a prompt, so keep the six fields and their values. `style` says what kind of prompt it is. An `interview` prompt has the AI question the reader before doing anything; an `instruction` prompt tells the AI how to behave and the reader carries on. New styles get added here as they appear. `start-here.md` in each element's `prompts/` folder is that element's first prompt. The body has exactly one heading, `## The prompt`, because the site finds the copyable text by that heading. Everything under it is what gets copied, so it must be clean, final text. Structure inside the prompt is welcome when it helps the AI follow it: bold step labels, numbered steps, bulleted rules. Just never use a `##` heading inside the prompt, or the site will cut the text there.
 
-- **It's working if** — success signals for a fuzzy technique. A conversation doesn't have a test suite, so tell the reader what good feels like ("it's working if you disagree with something the AI proposed").
-- **Watch out for** — the technique's named limits and failure modes. Every technique has a boundary; naming it is part of teaching it ("this stalls when the question needs a prototype, not more talking").
+## What makes a good HORSE prompt
 
-The companion site renders only `## The prompt` on its surface pages. Everything else is for the GitHub reader and deeper site views — so the extra sections cost the casual visitor nothing.
+**It teaches a technique, not a task.** Every prompt helps you do one of the HORSE elements better: sharpen an objective, set a role, bound a scope, evaluate an output. None of them are "write me a marketing email." Task recipes go stale and teach nothing. Techniques transfer to any work.
 
-## How the site consumes this repo
+**It assumes nothing about the reader or the tool.** No industry, no job, no particular AI. Assume a chat window. Prompts may lean on web search, file uploads, and memory, since nearly every tool has them now.
 
-The site fetches `index.json` for the catalog, then prompt bodies on demand. Each element page shows one short intro paragraph, then the start-here prompt with a copy button. That means:
+**It works copy-pasted, as is.** No placeholders to fill in, no setup outside the text, no reliance on anything the reader was supposed to read first.
 
-- Each element `README.md` leads with one tight paragraph (~50–60 words) — the site takes the first paragraph as the on-page intro. Deeper teaching follows below it.
-- The prompt body under `## The prompt` must be clean, final text — exactly what a reader should paste, nothing else.
+**It picks up where the last element left off.** HORSE is walked in order, so a prompt asks whether the reader has already done the earlier elements and takes their output as given. The Role and Scope prompts take the objective if the reader pastes it. The Evaluate prompt asks for the objective and scope. If the reader has nothing, the prompt carries on without it.
 
-## Interview prompts
+**It isn't verbose, and it is structured.** Say what the AI must do and stop. A sentence can be a prompt. When a prompt has several steps or rules, lay them out as steps and rules. Dense paragraphs save words and lose the reader and the AI both.
 
-The library's flagship move is flipped interaction: the AI interviews you. Most good sessions open with some version of it — a co-creative session starts as an interview, and even "write this email" starts with a question or two — because interviewing is simply how the AI acquires your objective, scope, and context instead of guessing them. But not everything needs one, and nothing needs a maximal one. Any interview-style prompt in this library follows these mechanics:
+**It ends with something the reader can carry.** Almost always, the prompt should leave the reader holding a written result: an objective in a sentence, a role definition, a set of criteria. A result they can paste into the next session beats one they have to remember. The rare prompt that doesn't produce anything is fine, but it should be the exception.
 
-- **One question at a time. Always.** Never a wall of questions. Ask, wait for the answer, then ask the next. This is a hard rule of the library — a batch of eight questions in a chat window is where beginners bail.
-- **Right-size the interview.** The depth of questioning scales with the stakes and novelty of the task: two questions for an email, twenty for a business decision. Interview prompts instruct the AI to size its questioning to the task — thoroughness is not the goal; sufficiency is.
-- **Recommend answers for decisions, never for elicitation.** When a question is a genuine decision with a sensible default ("email or memo?"), the AI may propose its recommendation for the user to accept or push back on. When the question is drawing something out of the user — their objective, their context, what good looks like — the AI asks openly and never suggests the answer. Only the user has that material.
-- **Document as you go.** A good interviewer takes notes. The AI keeps a running bulleted record of what's been settled, visible to the user — so nothing gets lost, and the wrap-up artifact is trustworthy instead of reconstructed.
-- **Probe thin answers.** A good interviewer doesn't accept the first answer — "can you give me more context on that?" is always available. First answers are often labels for things the user hasn't unpacked yet.
-- **Facts are the AI's job; decisions are the user's.** The AI never asks the user to go look something up it could find or reason out itself.
-- **There is an explicit end condition.** The interview ends when nothing is left silently assumed.
-- **No producing until the user confirms.** Mid-interview, the AI will be tempted to jump ahead and start drafting the deliverable. It doesn't. The interview ends with the AI summarizing what it heard; only when the user confirms the summary does the actual work begin.
-- **End with an artifact.** Close by producing something portable — "write up what we decided in one paragraph I can reuse." A conversation the user keeps beats a conversation the user remembers.
+## Where the teaching lives
 
-The known failure mode is passivity: answering "agreed, agreed, agreed" and ending up with a plan the AI wrote and you nodded at. "I don't know" is a real answer. It's working if you disagree with something.
+The element `README.md`. It explains what the letter means and gives a feel for the stage. The site takes its first paragraph as the on-page intro, so that paragraph should stand alone at around 50 to 60 words, with the deeper teaching below it. Anything about why a prompt works, or what to watch for when using it, belongs in the README if it belongs anywhere.
 
-## Reusing what interviews learn
+## If the prompt is an interview
 
-Interviews have a cost: without somewhere to put what they learn, they repeat themselves — every session re-asks who you are, how you work, what you're building. The library has two answers now, and one later:
+Some prompts have the AI interview the reader. These rules apply to those prompts and no others.
 
-- **The artifact.** Every interview ends with a reusable brief. Paste it into the next session instead of re-answering.
-- **Install-once prompts.** Nearly every tool has memory now, so some prompts are run once and persist: "Remember: whenever I bring you a task, start by interviewing me — one question at a time, sized to the task." Use once, benefit in every future session. This is a distinct prompt genre in the library, and part of the Harness element: shaping the tool, not just the conversation.
-- **Later: the rider profile.** A standing document about how you work — produced by an interview, pasted anywhere. Not built yet; noted so the design leaves room for it.
+- **One question at a time.** Ask, wait for the answer, then ask the next. A batch of questions in a chat window is where beginners bail.
+- **Size the interview.** Two questions for an email, twenty for a business decision. A prompt can do this by telling the AI to scale its questions to the task, or by having it reflect the answer back as soon as it can and letting a correction restart the questioning. The second works better on weaker models, because guessing early is mechanical and guessing the size is a judgment.
+- **Ask openly first, suggest later.** When a question draws something out of the reader, their objective, their context, what good looks like, the AI asks without proposing an answer, because only the reader has that material. Once it has listened enough, it may suggest. "Enough" should be something the AI can observe, not judge: it has already reflected the answer back in the reader's words at least once, or the reader has said they don't know. A suggestion is a question ("is it something like X?"), never the answer, and the AI asks the reader to say it back in their own words. The reader's words go in the result. The AI's phrasing gets in only if the reader adopts it. For genuine decisions with a sensible default ("email or memo?"), the AI may recommend freely.
+- **Take notes, quietly.** The AI keeps track of what the reader has said, especially the asides about how they'd do it, and uses it in the final result. It doesn't recite the notes back mid-interview. Reading the reader their own answers is padding, and weak models do it badly.
+- **Don't accept thin answers.** A label, a single word, or "better" isn't an answer. Ask what kind, or what else.
+- **Facts are the AI's job. Decisions are the reader's.** The AI never asks the reader to look up something it could find or reason out itself.
+- **Don't produce until the reader confirms.** The AI will want to start drafting mid-interview. It doesn't. It summarizes what it heard, and the work begins only after the reader says yes.
+- **Say how it ends.** The reader should know what "done" looks like before the interview starts.
 
-## Role prompts
-
-A role prompt works through behavioral rules, not a costume. "Act as a tutor" does nothing; the rules do everything:
-
-- One question at a time. Wait for the answer.
-- Never ask "do you understand?" — make the user explain it or apply it instead.
-- State what the role won't do ("don't do the work for me — make me plan the next step").
-
-When writing a role prompt, spend the words on the rules of engagement, not on describing the character.
+The known failure is passivity: the reader says "agreed, agreed, agreed" and ends up with a plan the AI wrote and they nodded at. A good interview prompt makes the reader correct something.
