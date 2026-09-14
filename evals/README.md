@@ -15,7 +15,7 @@ Runs each HORSE prompt against case-study scenarios in several models, with and 
    - `uv run python -m horse_evals.run` runs every scenario in every model in `horse_evals/config.py`, three times each.
    - `--scenario <slug>` and `--model <id>` narrow it. Both repeat. `--repetitions N` changes the count.
    - `--dry-run` runs one interview for the first row, prints it with the judge's verdicts, and never contacts Phoenix.
-3. Read results in Phoenix under Datasets. Each run is an experiment named by model and time. Every criterion is its own column. `n/a` means the criterion is not part of that scenario; `error` means the judge did not answer cleanly, and it is not counted as a failure. Click a row to read the transcript and the judge's reason.
+3. Read results in Phoenix under Datasets. Each run is an experiment named by model and time. Every criterion is its own column. `n/a` means the criterion is not part of that scenario; `error` means the judge did not answer cleanly, and it is not counted as a failure. The transcript and any citations are in the run's output on that row (click a row to see them and the judge's reason); the individual model calls appear separately under the `horse-evals` project in the Tracing view.
 
 ## Adding a scenario
 

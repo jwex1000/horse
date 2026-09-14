@@ -51,6 +51,16 @@ CAPPED = {
     "search": False,
 }
 
+EMPTY = {
+    "transcript": [
+        {"role": "assistant", "content": "Q1? Q2?"},
+    ],
+    "note": "",
+    "turns": 1,
+    "status": "empty",
+    "search": False,
+}
+
 EXPECTED = {"criteria": [{"id": "c1", "text": "Names a spreadsheet tool."}, {"id": "c2", "text": "Asks about budget."}]}
 
 
@@ -128,3 +138,10 @@ def test_code_checks():
     assert completed["score"] == 0.5 and completed["label"] == "1/2"
     capped = question_marks_per_turn(CAPPED)
     assert capped["score"] == 0.0 and capped["label"] == "0/1"
+
+
+def test_empty_status_is_not_completed_and_not_excluded_from_question_marks_per_turn():
+    assert rider_finished(EMPTY) is False
+    empty_result = question_marks_per_turn(EMPTY)
+    assert empty_result["label"] == "0/1"
+    assert empty_result["score"] == 0.0

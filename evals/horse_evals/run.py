@@ -178,7 +178,7 @@ def main(argv: list[str] | None = None) -> None:
             },
             repetitions=args.repetitions,
             retries=0,
-            timeout=900,
+            timeout=900,  # Phoenix client's HTTP timeout per call, not a cap on task execution time.
         )
         print(json.dumps(summarize(result)))
 

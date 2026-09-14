@@ -4,6 +4,17 @@ from typing import Any
 
 DONE_MARKER = "[DONE]"
 
+# Whitespace and Markdown/punctuation decoration that riders wrap the marker in
+# (bold, quotes, trailing sentence punctuation, trailing newlines).
+_DONE_DECORATION = "*_`\"' .!\t\n\r"
+
+
+def is_done(reply: str) -> bool:
+    """True if `reply` is the done marker, allowing surrounding whitespace/decoration but
+    not other words (e.g. "Thanks, [DONE]" is not done)."""
+    return reply.strip(_DONE_DECORATION) == DONE_MARKER
+
+
 RIDER_RULES = f"""You are playing a person who is talking to an AI assistant. Stay in character as the person described below for the whole conversation.
 
 Rules:
@@ -30,7 +41,7 @@ def chat(
     *,
     tools: list[dict[str, Any]] | None = None,
     max_tokens: int | None = None,
-) -> tuple[str, list[dict[str, Any]]]:
+) -> tuple[str, list[dict[str, Any]], str | None]:
     kwargs: dict[str, Any] = {"model": model, "messages": messages}
     if max_tokens is not None:
         kwargs["max_tokens"] = max_tokens
@@ -38,10 +49,12 @@ def chat(
         # OpenRouter server tools are not in the OpenAI client's tool types, so they go in the raw body.
         kwargs["extra_body"] = {"tools": tools}
     response = client.chat.completions.create(**kwargs)
-    message = response.choices[0].message
+    choice = response.choices[0]
+    message = choice.message
     content = message.content or ""
     citations = [_as_dict(a) for a in (getattr(message, "annotations", None) or [])]
-    return content, citations
+    finish_reason = getattr(choice, "finish_reason", None)
+    return content, citations, finish_reason
 
 
 def run_interview(
@@ -64,22 +77,39 @@ def run_interview(
     transcript: list[dict[str, Any]] = []
 
     def finish(status: str, turns: int) -> dict[str, Any]:
-        note = next(m["content"] for m in reversed(transcript) if m["role"] == "assistant")
-        return {"transcript": transcript, "note": note, "turns": turns, "status": status, "search": bool(search_tool)}
+        assistant_entries = [m for m in transcript if m["role"] == "assistant"]
+        # The note is the last non-empty assistant message, or "" if every one was empty.
+        note = next((m["content"] for m in reversed(assistant_entries) if m["content"]), "")
+        final_finish_reason = assistant_entries[-1].get("finish_reason") if assistant_entries else None
+        return {
+            "transcript": transcript,
+            "note": note,
+            "turns": turns,
+            "status": status,
+            "search": bool(search_tool),
+            "finish_reason": final_finish_reason,
+        }
 
     for turn in range(1, max_turns + 1):
-        assistant, citations = chat(
+        assistant, citations, finish_reason = chat(
             client, model_under_test, under_test_messages, tools=tools, max_tokens=caps.get("under_test")
         )
         entry: dict[str, Any] = {"role": "assistant", "content": assistant}
         if citations:
             entry["citations"] = citations
+        if finish_reason is not None:
+            entry["finish_reason"] = finish_reason
         transcript.append(entry)
+        if not assistant:
+            # No visible text (e.g. the model spent its token budget on hidden reasoning, or
+            # returned only tool_calls). Sending "" to the rider as a user turn gets rejected
+            # by the provider, so stop here instead.
+            return finish("empty", turn)
         under_test_messages.append({"role": "assistant", "content": assistant})
         rider_messages.append({"role": "user", "content": assistant})
 
-        rider, _ = chat(client, rider_model, rider_messages, max_tokens=caps.get("rider"))
-        if rider.strip() == DONE_MARKER:
+        rider, _, _ = chat(client, rider_model, rider_messages, max_tokens=caps.get("rider"))
+        if is_done(rider):
             return finish("completed", turn)
         transcript.append({"role": "rider", "content": rider})
         rider_messages.append({"role": "assistant", "content": rider})
