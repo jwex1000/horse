@@ -1,0 +1,22 @@
+[project]
+name = "horse-evals"
+version = "0.1.0"
+description = "Runs HORSE prompts against case-study scenarios and records results in Phoenix."
+requires-python = ">=3.12"
+dependencies = [
+  "arize-phoenix-client>=3.4",
+  "arize-phoenix-otel>=0.17",
+  "openinference-instrumentation-openai>=0.1.60",
+  "openai>=2.8",
+  "python-dotenv>=1.0",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
