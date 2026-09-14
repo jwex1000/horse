@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-30T19:23:05.664Z",
+  "generated_at": "2026-09-14T19:25:01.518Z",
   "elements": [
     {
       "key": "harness",
@@ -31,50 +31,55 @@
     {
       "element": "harness",
       "slug": "start-here",
-      "title": "Test Harness start-here prompt",
+      "title": "Interview me about my situation and recommend the tools for my work",
       "level": "beginner",
-      "summary": "Test summary for the Harness start-here prompt.",
-      "use_when": "Test — use when validating the pipeline.",
+      "style": "interview",
+      "summary": "You say what you're about to do, the AI asks about your situation, then recommends specific tools, how to set them up, and why.",
+      "use_when": "You're about to start something with AI and don't know which tool to open. Or you always use the same one and suspect something else would fit better.",
       "path": "harness/prompts/start-here.md",
       "is_start_here": true
     },
     {
       "element": "objective",
       "slug": "start-here",
-      "title": "Test Objective start-here prompt",
+      "title": "Interview me until I can say what I want to have happen",
       "level": "beginner",
-      "summary": "Test summary for the Objective start-here prompt.",
-      "use_when": "Test — use when validating the pipeline.",
+      "style": "interview",
+      "summary": "You talk, then the AI asks \"so that what happens?\" one question at a time until you can say what you want, and writes it down.",
+      "use_when": "You're about to start something and can't yet say in one sentence what it's for. Or you keep getting back work that's polished but not what you needed.",
       "path": "objective/prompts/start-here.md",
       "is_start_here": true
     },
     {
       "element": "role",
       "slug": "start-here",
-      "title": "Test Role start-here prompt",
+      "title": "Interview me about how you should work with me",
       "level": "beginner",
-      "summary": "Test summary for the Role start-here prompt.",
-      "use_when": "Test — use when validating the pipeline.",
+      "style": "interview",
+      "summary": "The AI asks how much you want done for you, who you'd want across the table, and how they'd treat you, then writes a role you can paste into any chat.",
+      "use_when": "The AI is being agreeable when you needed it to push back, or doing the work when you wanted to learn it. Or you've never told it how to act and want to.",
       "path": "role/prompts/start-here.md",
       "is_start_here": true
     },
     {
       "element": "scope",
       "slug": "start-here",
-      "title": "Test Scope start-here prompt",
+      "title": "Interview me until we can draw the lines around the work",
       "level": "beginner",
-      "summary": "Test summary for the Scope start-here prompt.",
-      "use_when": "Test — use when validating the pipeline.",
+      "style": "interview",
+      "summary": "The AI asks what's in, what's out, what good looks like, and what done looks like, one question at a time, then writes a scope you can paste into your next chat.",
+      "use_when": "The AI keeps doing more than you asked, or less. Or you can't tell when the work is finished because you never said.",
       "path": "scope/prompts/start-here.md",
       "is_start_here": true
     },
     {
       "element": "evaluate",
       "slug": "start-here",
-      "title": "Test Evaluate start-here prompt",
+      "title": "Interview me about the output until I can say whether it's right",
       "level": "beginner",
-      "summary": "Test summary for the Evaluate start-here prompt.",
-      "use_when": "Test — use when validating the pipeline.",
+      "style": "interview",
+      "summary": "You paste what the AI made and it asks you, one question at a time, where it hits and misses, then writes a note you can send back to fix it.",
+      "use_when": "You got something back that looks fine and you're not sure if it's actually good. Or you're about to say \"looks great, thanks\" and ship it.",
       "path": "evaluate/prompts/start-here.md",
       "is_start_here": true
     }

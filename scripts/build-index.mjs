@@ -47,6 +47,7 @@ for (const el of ELEMENTS) {
       slug,
       title: fm.title ?? "",
       level: fm.level ?? "",
+      style: fm.style ?? "",
       summary: fm.summary ?? "",
       use_when: fm.use_when ?? "",
       path: `${el.key}/prompts/${file}`,
