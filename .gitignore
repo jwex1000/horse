@@ -14,3 +14,9 @@ CLAUDE.md
 
 # Local-only working notes
 notes/
+
+# Eval framework: secrets and Python cruft
+.env
+evals/.venv/
+__pycache__/
+.pytest_cache/
