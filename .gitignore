@@ -20,3 +20,6 @@ notes/
 evals/.venv/
 __pycache__/
 .pytest_cache/
+
+# Subagent-driven-development scratch (local only)
+.superpowers/
