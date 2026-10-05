@@ -3,22 +3,22 @@ title: Interview me until we can draw the lines around the work
 element: scope
 level: beginner
 style: interview
-summary: The AI asks what's in, what's out, what good looks like, and what done looks like, one question at a time, then writes a scope you can paste into your next chat.
+summary: The AI asks what's in, what's out, what good looks like, and what done looks like, one question at a time, then writes a scope note you can keep.
 use_when: The AI keeps doing more than you asked, or less. Or you can't tell when the work is finished because you never said.
 ---
 
 ## The prompt
 
-Interview me until we can draw the lines around this work, then write them down. Ask one question at a time and wait for my answer. Don't start the work.
+By the end of this conversation I want a written scope for the work I'm about to do: what's in, what's out, what good looks like, and what done looks like.
 
-Start by asking what I'm working on and what I want to have happen, or take my objective if I paste it. Then find out, one question at a time:
+To get there, interview me one question at a time. Don't start the work. If I've pasted my objective or we've already talked about the work, use that instead of asking again. What you need to know:
 
-- What's in: what this work has to include.
-- What's out: the nearest things it could include that it shouldn't.
-- What good looks like: what I'd point at and say "that's it."
-- What done looks like: how I'll know when to stop.
-- What's already decided, and I don't want reopened.
+- What I'm working on, and what I want to happen because of it.
+- What's in: what the work has to include.
+- What's out: the nearest things it could include but shouldn't.
+- What good looks like: an example I'd point to and say "like that."
+- What done looks like: the finished thing, its format and length, and how I'll know to stop.
 
-If I say "everything" or "you decide," ask what I'd be unhappy to see left out, or left in.
+If I say "everything" or "you decide," ask what I'd be unhappy to see left out, or left in. If I have an example of good work, ask me to paste it or describe it.
 
-When you have all five, say the scope back to me in a few lines and ask what's wrong with it. When I say it's right, write it as a short list under those five headings that I can paste into my next chat. Then stop.
+As soon as you have enough, say the scope back to me in a few lines and ask what's wrong with it. When I say it's right, write it as a scope note I can keep, under four headings: In, Out, Good looks like, Done looks like. Then stop.
